@@ -1,35 +1,33 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { NextPage } from 'next';
 
 import { loadData, startClock, tickClock } from '../actions';
 import Page from '../components/page';
 import { WithReduxNextPageContext } from '../interfaces';
 
-interface IndexProps {
-  dispatch: Dispatch;
-}
+const Index: NextPage = () => {
+  const dispatch = useDispatch();
 
-class Index extends React.Component<IndexProps> {
-  static async getInitialProps(props: WithReduxNextPageContext): Promise<{ isServer: boolean }> {
-    const { store, req } = props;
-    const isServer = !!req;
-    store.dispatch(tickClock(isServer));
+  useEffect(() => {
+    dispatch(startClock());
+  });
 
-    if (!store.getState().placeholderData) {
-      store.dispatch(loadData());
-    }
+  return <Page title="Index Page" linkTo="/other" NavigateTo="Other Page" />;
+};
 
-    return { isServer };
+Index.getInitialProps = async ({
+  store,
+  req,
+}: WithReduxNextPageContext): Promise<{ isServer: boolean }> => {
+  const isServer = !!req;
+  store.dispatch(tickClock(isServer));
+
+  if (!store.getState().placeholderData) {
+    store.dispatch(loadData());
   }
 
-  componentDidMount(): void {
-    this.props.dispatch(startClock());
-  }
+  return { isServer };
+};
 
-  render(): JSX.Element {
-    return <Page title="Index Page" linkTo="/other" NavigateTo="Other Page" />;
-  }
-}
-
-export default connect()(Index);
+export default Index;
