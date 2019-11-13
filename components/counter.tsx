@@ -1,47 +1,40 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { increment, decrement, reset } from '../actions';
 import { State } from '../interfaces';
 
-interface CounterProps {
-  dispatch: Dispatch;
-  count: number;
-}
+const Counter: React.FunctionComponent = () => {
+  const count = useSelector((state: State): number => state.count);
+  const dispatch = useDispatch();
 
-class Counter extends Component<CounterProps> {
-  increment = (): void => {
-    this.props.dispatch(increment());
+  const onIncrement = (): void => {
+    dispatch(increment());
   };
 
-  decrement = (): void => {
-    this.props.dispatch(decrement());
+  const onDecrement = (): void => {
+    dispatch(decrement());
   };
 
-  reset = (): void => {
-    this.props.dispatch(reset());
+  const onReset = (): void => {
+    dispatch(reset());
   };
 
-  render(): JSX.Element {
-    const { count } = this.props;
-    return (
-      <div>
-        <style jsx>{`
-          div {
-            padding: 0 0 20px 0;
-          }
-        `}</style>
-        <h1>
-          Count: <span>{count}</span>
-        </h1>
-        <button onClick={this.increment}>+1</button>
-        <button onClick={this.decrement}>-1</button>
-        <button onClick={this.reset}>Reset</button>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <style jsx>{`
+        div {
+          padding: 0 0 20px 0;
+        }
+      `}</style>
+      <h1>
+        Count: <span>{count}</span>
+      </h1>
+      <button onClick={onIncrement}>+1</button>
+      <button onClick={onDecrement}>-1</button>
+      <button onClick={onReset}>Reset</button>
+    </div>
+  );
+};
 
-const mapStateToProps = ({ count }: State): { count: number } => ({ count });
-export default connect(mapStateToProps)(Counter);
+export default Counter;

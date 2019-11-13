@@ -3,7 +3,7 @@ import { State } from './interfaces';
 
 export const exampleInitialState: State = {
   count: 0,
-  error: false,
+  error: null,
   lastUpdate: 0,
   light: false,
   placeholderData: null,

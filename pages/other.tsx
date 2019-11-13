@@ -1,34 +1,30 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { NextPage } from 'next';
 
 import { startClock, tickClock } from '../actions';
 import Page from '../components/page';
 import { WithReduxNextPageContext } from '../interfaces';
 
-interface OtherProps {
-  dispatch: Dispatch;
-}
+const Other: NextPage = () => {
+  const dispatch = useDispatch();
 
-class Other extends React.Component<OtherProps> {
-  static async getInitialProps(
-    props: WithReduxNextPageContext,
-  ): Promise<{
-    isServer: boolean;
-  }> {
-    const { store, req } = props;
-    const isServer = !!req;
-    store.dispatch(tickClock(isServer));
-    return { isServer };
-  }
+  useEffect(() => {
+    dispatch(startClock());
+  });
 
-  componentDidMount(): void {
-    this.props.dispatch(startClock());
-  }
+  return <Page title="Other Page" linkTo="/" NavigateTo="Index Page" />;
+};
 
-  render(): JSX.Element {
-    return <Page title="Other Page" linkTo="/" NavigateTo="Index Page" />;
-  }
-}
+Other.getInitialProps = async ({
+  store,
+  req,
+}: WithReduxNextPageContext): Promise<{
+  isServer: boolean;
+}> => {
+  const isServer = !!req;
+  store.dispatch(tickClock(isServer));
+  return { isServer };
+};
 
-export default connect()(Other);
+export default Other;

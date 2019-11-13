@@ -36,7 +36,7 @@ export interface User {
 
 export interface State {
   count: number;
-  error: boolean | Error;
+  error: null | Error;
   lastUpdate: number;
   light: boolean;
   placeholderData: User[] | null;

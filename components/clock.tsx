@@ -10,8 +10,8 @@ const format = (t: Date): string => {
 };
 
 interface ClockProps {
-  lastUpdate: string;
-  light: string;
+  lastUpdate: number;
+  light: boolean;
 }
 
 const Clock: React.FunctionComponent<ClockProps> = ({ lastUpdate, light }: ClockProps) => {

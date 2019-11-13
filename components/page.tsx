@@ -1,29 +1,23 @@
 import React from 'react';
 import Link from 'next/link';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import Counter from './counter';
 import Clock from './clock';
+import { State, User } from '../interfaces';
 
 interface PageProps {
-  error?: Error;
-  lastUpdate?: string;
-  light?: string;
   linkTo: string;
   NavigateTo: string;
-  placeholderData?: string;
   title: string;
 }
 
-const Page: React.FunctionComponent<PageProps> = ({
-  error,
-  lastUpdate,
-  light,
-  linkTo,
-  NavigateTo,
-  placeholderData,
-  title,
-}: PageProps) => {
+const Page: React.FunctionComponent<PageProps> = ({ linkTo, NavigateTo, title }: PageProps) => {
+  const error = useSelector((state: State): null | Error => state.error);
+  const lastUpdate = useSelector((state: State): number => state.lastUpdate);
+  const light = useSelector((state: State): boolean => state.light);
+  const placeholderData = useSelector((state: State): User[] | null => state.placeholderData);
+
   return (
     <div>
       <h1>{title}</h1>
@@ -44,4 +38,4 @@ const Page: React.FunctionComponent<PageProps> = ({
   );
 };
 
-export default connect(state => state)(Page);
+export default Page;
