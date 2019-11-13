@@ -3,7 +3,7 @@ import createSagaMiddleware from 'redux-saga';
 
 import rootReducer, { exampleInitialState } from './reducer';
 import rootSaga from './saga';
-import { NextReduxSagaStore } from './interfaces';
+import { WithSagaTaskStore } from './interfaces';
 
 const bindMiddleware = (middleware: Middleware[]): StoreEnhancer => {
   if (process.env.NODE_ENV !== 'production') {
@@ -14,9 +14,9 @@ const bindMiddleware = (middleware: Middleware[]): StoreEnhancer => {
   return applyMiddleware(...middleware);
 };
 
-function configureStore(initialState = exampleInitialState): NextReduxSagaStore {
+function configureStore(initialState = exampleInitialState): WithSagaTaskStore {
   const sagaMiddleware = createSagaMiddleware();
-  const store: NextReduxSagaStore = createStore(
+  const store: WithSagaTaskStore = createStore(
     rootReducer,
     initialState,
     bindMiddleware([sagaMiddleware]),
