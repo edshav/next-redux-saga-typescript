@@ -4,15 +4,16 @@ import { Dispatch } from 'redux';
 
 import { loadData, startClock, tickClock } from '../actions';
 import Page from '../components/page';
-import { GetInitialProps } from '../interfaces';
+import { WithReduxNextPageContext } from '../interfaces';
 
 interface IndexProps {
   dispatch: Dispatch;
 }
 
 class Index extends React.Component<IndexProps> {
-  static async getInitialProps(props: GetInitialProps): Promise<{ isServer: boolean }> {
-    const { store, isServer } = props.ctx;
+  static async getInitialProps(props: WithReduxNextPageContext): Promise<{ isServer: boolean }> {
+    const { store, req } = props;
+    const isServer = !!req;
     store.dispatch(tickClock(isServer));
 
     if (!store.getState().placeholderData) {

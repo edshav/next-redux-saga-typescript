@@ -1,12 +1,13 @@
 import { Store } from 'redux';
 import { Task } from 'redux-saga';
+import { NextPageContext } from 'next';
 
-export interface NextReduxSagaStore extends Store {
+export interface WithSagaTaskStore extends Store {
   sagaTask?: Task;
 }
 
-export interface GetInitialProps {
-  ctx: { store: NextReduxSagaStore; isServer: boolean };
+export interface WithReduxNextPageContext extends NextPageContext {
+  store: WithSagaTaskStore; // Added with react-redux Provider in _app.tsx
 }
 
 export interface User {

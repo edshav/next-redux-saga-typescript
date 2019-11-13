@@ -2,8 +2,6 @@ import { User } from '../interfaces';
 import { actionTypes } from './types';
 import * as actionIs from '../interfaces/actions.interfaces';
 
-// Action Creators ======================
-
 export function failure(error: Error): actionIs.Failure {
   return {
     type: actionTypes.FAILURE,
