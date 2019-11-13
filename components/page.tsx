@@ -1,10 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
+import { createSelector } from 'reselect';
 
 import Counter from './counter';
 import Clock from './clock';
-import { State, User } from '../interfaces';
+import { State } from '../interfaces';
 
 interface PageProps {
   linkTo: string;
@@ -12,11 +13,16 @@ interface PageProps {
   title: string;
 }
 
+const selectData = createSelector(
+  (state: State) => state.error,
+  (state: State) => state.lastUpdate,
+  (state: State) => state.light,
+  (state: State) => state.placeholderData,
+  (error, lastUpdate, light, placeholderData) => ({ error, lastUpdate, light, placeholderData }),
+);
+
 const Page: React.FunctionComponent<PageProps> = ({ linkTo, NavigateTo, title }: PageProps) => {
-  const error = useSelector((state: State): null | Error => state.error);
-  const lastUpdate = useSelector((state: State): number => state.lastUpdate);
-  const light = useSelector((state: State): boolean => state.light);
-  const placeholderData = useSelector((state: State): User[] | null => state.placeholderData);
+  const { error, lastUpdate, light, placeholderData } = useSelector(selectData);
 
   return (
     <div>
