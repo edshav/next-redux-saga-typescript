@@ -21,7 +21,7 @@ const selectData = createSelector(
   (error, lastUpdate, light, placeholderData) => ({ error, lastUpdate, light, placeholderData }),
 );
 
-const Page: React.FunctionComponent<PageProps> = ({ linkTo, NavigateTo, title }: PageProps) => {
+const Page: React.FC<PageProps> = ({ linkTo, NavigateTo, title }: PageProps) => {
   const { error, lastUpdate, light, placeholderData } = useSelector(selectData);
 
   return (

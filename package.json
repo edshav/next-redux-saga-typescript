@@ -10,7 +10,7 @@
   "dependencies": {
     "es6-promise": "^4.2.8",
     "isomorphic-unfetch": "^3.0.0",
-    "next": "latest",
+    "next": "^9.4.4",
     "next-redux-saga": "^4.0.2",
     "next-redux-wrapper": "^4.0.1",
     "react": "^16.0.0",

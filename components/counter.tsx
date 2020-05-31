@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { increment, decrement, reset } from '../actions';
 import { State } from '../interfaces';
 
-const Counter: React.FunctionComponent = () => {
+const Counter: React.FC<{}> = () => {
   const count = useSelector((state: State): number => state.count);
   const dispatch = useDispatch();
 

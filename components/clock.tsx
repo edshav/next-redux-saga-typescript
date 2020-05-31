@@ -14,7 +14,7 @@ interface ClockProps {
   light: boolean;
 }
 
-const Clock: React.FunctionComponent<ClockProps> = ({ lastUpdate, light }: ClockProps) => {
+const Clock: React.FC<ClockProps> = ({ lastUpdate, light }: ClockProps) => {
   return (
     <div className={light ? 'light' : ''}>
       {format(new Date(lastUpdate))}
