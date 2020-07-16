@@ -1,34 +1,9 @@
-import App, { AppContext, AppInitialProps } from 'next/app';
-import React from 'react';
-import { Provider } from 'react-redux';
-import withRedux from 'next-redux-wrapper';
-import withReduxSaga from 'next-redux-saga';
-import createStore from '../store';
-import { WithSagaTaskStore } from '../interfaces';
+import { AppProps } from 'next/app';
+import { NextPage } from 'next';
+import { wrapper } from '../store';
 
-interface MyAppProps {
-  store: WithSagaTaskStore;
-}
+const MyApp: NextPage<AppProps> = ({ Component, pageProps }: AppProps) => {
+  return <Component {...pageProps} />;
+};
 
-class MyApp extends App<MyAppProps> {
-  static async getInitialProps({ Component, ctx }: AppContext): Promise<AppInitialProps> {
-    let pageProps = {};
-
-    if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx);
-    }
-
-    return { pageProps };
-  }
-
-  render(): JSX.Element {
-    const { Component, pageProps, store } = this.props;
-    return (
-      <Provider store={store}>
-        <Component {...pageProps} />
-      </Provider>
-    );
-  }
-}
-
-export default withRedux(createStore)(withReduxSaga(MyApp));
+export default wrapper.withRedux(MyApp);

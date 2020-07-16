@@ -1,15 +1,3 @@
-import { Store } from 'redux';
-import { Task } from 'redux-saga';
-import { NextPageContext } from 'next';
-
-export interface WithSagaTaskStore extends Store {
-  sagaTask?: Task;
-}
-
-export interface WithReduxNextPageContext extends NextPageContext {
-  store: WithSagaTaskStore; // Added with react-redux Provider in _app.tsx
-}
-
 export interface User {
   id: number;
   name: string;
@@ -34,7 +22,7 @@ export interface User {
   };
 }
 
-export interface State {
+export interface AppState {
   count: number;
   error: null | Error;
   lastUpdate: number;

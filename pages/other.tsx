@@ -4,7 +4,7 @@ import { NextPage } from 'next';
 
 import { startClock, tickClock } from '../actions';
 import Page from '../components/page';
-import { WithReduxNextPageContext } from '../interfaces';
+import { wrapper } from '../store';
 
 const Other: NextPage = () => {
   const dispatch = useDispatch();
@@ -16,15 +16,8 @@ const Other: NextPage = () => {
   return <Page title="Other Page" linkTo="/" NavigateTo="Index Page" />;
 };
 
-Other.getInitialProps = async ({
-  store,
-  req,
-}: WithReduxNextPageContext): Promise<{
-  isServer: boolean;
-}> => {
-  const isServer = !!req;
-  store.dispatch(tickClock(isServer));
-  return { isServer };
-};
+export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
+  store.dispatch(tickClock(false));
+});
 
 export default Other;

@@ -3,9 +3,9 @@ import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 
+import { AppState } from '../interfaces';
 import Counter from './counter';
 import Clock from './clock';
-import { State } from '../interfaces';
 
 interface PageProps {
   linkTo: string;
@@ -14,10 +14,10 @@ interface PageProps {
 }
 
 const selectData = createSelector(
-  (state: State) => state.error,
-  (state: State) => state.lastUpdate,
-  (state: State) => state.light,
-  (state: State) => state.placeholderData,
+  (state: AppState) => state.error,
+  (state: AppState) => state.lastUpdate,
+  (state: AppState) => state.light,
+  (state: AppState) => state.placeholderData,
   (error, lastUpdate, light, placeholderData) => ({ error, lastUpdate, light, placeholderData }),
 );
 

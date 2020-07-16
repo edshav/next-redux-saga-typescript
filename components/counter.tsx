@@ -2,10 +2,10 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { increment, decrement, reset } from '../actions';
-import { State } from '../interfaces';
+import { AppState } from '../interfaces';
 
-const Counter: React.FC<{}> = () => {
-  const count = useSelector((state: State): number => state.count);
+const Counter: React.FC = () => {
+  const count = useSelector((state: AppState): number => state.count);
   const dispatch = useDispatch();
 
   const onIncrement = (): void => {

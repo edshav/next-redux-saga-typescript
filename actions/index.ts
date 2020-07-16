@@ -1,5 +1,4 @@
-import { User } from '../interfaces';
-import { actionTypes } from './types';
+import { User, actionTypes } from '../interfaces';
 import * as actionIs from '../interfaces/actions.interfaces';
 
 export function failure(error: Error): actionIs.Failure {

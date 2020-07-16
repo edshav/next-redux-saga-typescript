@@ -2,9 +2,10 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { NextPage } from 'next';
 
+import { END } from 'redux-saga';
 import { loadData, startClock, tickClock } from '../actions';
 import Page from '../components/page';
-import { WithReduxNextPageContext } from '../interfaces';
+import { wrapper } from '../store';
 
 const Index: NextPage = () => {
   const dispatch = useDispatch();
@@ -16,18 +17,14 @@ const Index: NextPage = () => {
   return <Page title="Index Page" linkTo="/other" NavigateTo="Other Page" />;
 };
 
-Index.getInitialProps = async ({
-  store,
-  req,
-}: WithReduxNextPageContext): Promise<{ isServer: boolean }> => {
-  const isServer = !!req;
-  store.dispatch(tickClock(isServer));
+export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
+  store.dispatch(tickClock(false));
 
   if (!store.getState().placeholderData) {
     store.dispatch(loadData());
+    store.dispatch(END);
   }
-
-  return { isServer };
-};
+  await store.sagaTask?.toPromise();
+});
 
 export default Index;

@@ -1,7 +1,7 @@
-import { actionTypes, Action } from './actions/types';
-import { State } from './interfaces';
+import { AppState, Action, actionTypes } from './interfaces';
+import { HYDRATE } from 'next-redux-wrapper';
 
-export const exampleInitialState: State = {
+export const exampleInitialState: AppState = {
   count: 0,
   error: null,
   lastUpdate: 0,
@@ -9,8 +9,14 @@ export const exampleInitialState: State = {
   placeholderData: null,
 };
 
-const reducer = (state = exampleInitialState, action: Action): State => {
+const reducer = (
+  state = exampleInitialState,
+  action: Action | { type: typeof HYDRATE; payload: AppState },
+): AppState => {
   switch (action.type) {
+    case HYDRATE:
+      return { ...state, ...action.payload };
+
     case actionTypes.FAILURE:
       return {
         ...state,

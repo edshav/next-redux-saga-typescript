@@ -1,15 +1,13 @@
 import { all, call, delay, put, take, takeLatest } from 'redux-saga/effects';
 import es6promise from 'es6-promise';
-import fetch from 'isomorphic-unfetch';
+import axios, { AxiosResponse } from 'axios';
 
 import { failure, loadDataSuccess, tickClock } from './actions';
-import { actionTypes } from './actions/types';
-import { User } from './interfaces';
-import { SagaIterator } from 'redux-saga';
+import { User, actionTypes } from './interfaces';
 
 es6promise.polyfill();
 
-function* runClockSaga(): SagaIterator {
+function* runClockSaga() {
   yield take(actionTypes.START_CLOCK);
   while (true) {
     yield put(tickClock(false));
@@ -17,17 +15,22 @@ function* runClockSaga(): SagaIterator {
   }
 }
 
-function* loadDataSaga(): SagaIterator {
+function* loadDataSaga() {
   try {
-    const res = yield call(fetch, 'https://jsonplaceholder.typicode.com/users');
-    const data: User[] = yield res.json();
-    yield put(loadDataSuccess(data));
+    const { status, data }: AxiosResponse<User[]> = yield call(
+      axios.get,
+      'https://jsonplaceholder.typicode.com/users',
+    );
+
+    if (status === 200) {
+      yield put(loadDataSuccess(data));
+    }
   } catch (err) {
     yield put(failure(err));
   }
 }
 
-function* rootSaga(): SagaIterator {
+function* rootSaga() {
   yield all([call(runClockSaga), takeLatest(actionTypes.LOAD_DATA, loadDataSaga)]);
 }
 
