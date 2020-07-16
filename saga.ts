@@ -1,11 +1,8 @@
 import { all, call, delay, put, take, takeLatest } from 'redux-saga/effects';
-import es6promise from 'es6-promise';
 import axios, { AxiosResponse } from 'axios';
 
 import { failure, loadDataSuccess, tickClock } from './actions';
 import { User, actionTypes } from './interfaces';
-
-es6promise.polyfill();
 
 function* runClockSaga() {
   yield take(actionTypes.START_CLOCK);
@@ -30,7 +27,7 @@ function* loadDataSaga() {
   }
 }
 
-function* rootSaga() {
+function* rootSaga(): Generator {
   yield all([call(runClockSaga), takeLatest(actionTypes.LOAD_DATA, loadDataSaga)]);
 }
 
