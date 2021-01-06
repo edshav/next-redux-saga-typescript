@@ -9,7 +9,7 @@
     "lint": "eslint '*/**/*.{js,ts,tsx}'"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "next": "^9.4.4",
     "next-redux-wrapper": "^6.0.2",
     "react": "^16.0.0",
